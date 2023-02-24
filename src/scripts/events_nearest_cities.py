@@ -44,7 +44,7 @@ def main():
     date = sys.argv[1]
     events_path = sys.argv[2]
     cities_path = sys.argv[3]
-    base_output_path = sys.argv[4]
+    output_path = sys.argv[4]
 
     conf = SparkConf().setAppName(f"EventsNearestCitiesJob-{date}")
     sc = SparkContext(conf=conf)
@@ -58,9 +58,9 @@ def main():
 
     events.withColumn("city_id", nearest_city_id("lon", "lat")) \
         .write.option("header", True) \
-        .partitionBy("date", "event_type") \
+        .partitionBy("event_type") \
         .mode("overwrite") \
-        .parquet(base_output_path)
+        .parquet(f"{output_path}/date={date}")
 
 
 if __name__ == "__main__":

@@ -1,1 +1,0 @@
-spark-submit --master local --driver-memory 8g --executor-memory 8g src/scripts/events_nearest_cities.py 2022-05-31 var/events_2 var/geo var/analytics/events
