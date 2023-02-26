@@ -26,7 +26,7 @@ def main():
     w = Window().partitionBy("user_id")
 
     travels = events.withColumn("prev_city", F.lag("city_name").over(w.orderBy("ts"))) \
-        .filter("prev_city <> city_name") \
+        .filter("prev_city is null or prev_city <> city_name") \
         .groupBy("user_id").agg(F.collect_list("city_name").alias("travel_array"),
                                 F.count("city_name").alias("travel_count"))
 
